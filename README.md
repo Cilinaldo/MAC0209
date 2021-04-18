@@ -2,6 +2,6 @@
 
 Docentes Responsáveis
 
-Junior Barrera
-Roberto Hirata Junior
-Roberto Marcondes Cesar Junior
+Junior Barrera <br/>
+Roberto Hirata Junior <br/>
+Roberto Marcondes Cesar Junior <br/>
