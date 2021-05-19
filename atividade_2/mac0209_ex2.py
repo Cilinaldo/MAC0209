@@ -13,13 +13,11 @@ from datetime import datetime
 import json
 
 import warnings
-
 import numpy as np
-
 from pyproj import Proj, transform
 
 """# para ignorar todos os warnings"""
-# warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore')
 
 """# O formato JSON
 Referência: [json.org](https://www.json.org/json-en.html)
