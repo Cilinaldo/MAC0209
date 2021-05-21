@@ -60,15 +60,52 @@ Crie uma função main que itera essas duas funções entre os tempos 0s e 2s (c
 
 # Implementa o exercício da integração de Euler de dx(t)/dt = 2at + b
 
-import math
+# todos os imports necessários
 import matplotlib.pyplot as pyplot
+import math
 
-def nextXeuler(x,t,params,dt):
-   
 
-def nextXa(t,params):
+# Implementa o exercício da integração de Euler de dx(t)/dt = 2at + b
+def nextXeuler(x, t, params, dt):
+    a = params[0]
+    b = params[1]
+    return x + 2 * a * t * dt + b * dt
+
+
+def nextXa(t, params):
+    a = params[0]
+    b = params[1]
+    x0 = params[2]
+    return a * (t ** 2) + b * t + x0
+
 
 def main():
+    t0 = 0
+    tf = 2
+    dt = 0.1
+    x_euler = []
+    x_analitico = []
+    tempos = []
+    params = [1, 1, 0]
+
+    while t0 <= tf:
+        if t0 == 0:
+            x_euler.append(0)
+        else:
+            x_euler.append(nextXeuler(x_euler[-1], t0, params, dt))
+        x_analitico.append(nextXa(t0, params))
+        tempos.append(t0)
+        t0 += dt
+
+    for i in range(len(x_euler)):
+        print(f'Erro:  {abs(x_euler[i] - x_analitico[i])}')
+
+    # imprime o mapa
+    pyplot.title("Posição");
+    pyplot.plot(tempos, x_analitico, color='orange')
+    pyplot.scatter(tempos, x_euler, s=150, marker='.')
+    pyplot.show()
+
 
 """## Resolva usando o método de Euler: $\frac{d^2x}{dt^2} = 6t$. Assuma $x(t_0) = 0$ e $v(t_0) = 0$
 
@@ -91,3 +128,61 @@ $\frac{dx}{dt} = v(t)$
 """
 
 # d2x / dt2 = 6t
+
+# Implementa o exercício da integração de Euler de d2x / dt2 = 6t
+def nextXVeuler(x, t, v, dt):
+    vf = 6 * t * dt + v
+    xf = x + 6 * t * dt * dt + v * dt
+    return xf, vf
+
+
+# Resolução analítica
+def nextXVa(t):
+    vf = 3 * t * t  # integra a função 6t
+    xf = t * t * t  # integra a função 3t^2
+    return xf, vf
+
+
+def main2():
+    t0 = 0
+    tf = 1
+    dt = 0.1
+    x_euler = []
+    v_euler = []
+    x_analitico = []
+    v_analitico = []
+    tempos = []
+
+    while t0 <= tf:
+        if t0 == 0:
+            x_euler.append(0)
+            v_euler.append(0)
+            x_analitico.append(0)
+            v_analitico.append(0)
+        else:
+            xe, ve = nextXVeuler(x_euler[-1], t0, v_euler[-1], dt)
+            x_euler.append(xe)
+            v_euler.append(ve)
+            xea, vea = nextXVa(t0)
+            x_analitico.append(xea)
+            v_analitico.append(vea)
+        tempos.append(t0)
+        t0 += dt
+
+    for i in range(len(x_euler)):
+        print(f'Erro {abs(x_euler[i] - x_analitico[i])}')
+
+    # imprime o mapa
+    pyplot.title("Posição");
+    pyplot.plot([x * 10 for x in tempos], x_analitico, color='orange');
+    pyplot.scatter([x * 10 for x in tempos], x_euler, s=150, marker='.');
+    pyplot.show();
+
+    # velocidade
+    pyplot.title("Velocidade");
+    pyplot.plot([x * 10 for x in tempos], v_analitico, color='orange');
+    pyplot.scatter([x * 10 for x in tempos], v_euler, s=150, marker='.');
+    pyplot.show();
+
+main()
+main2()

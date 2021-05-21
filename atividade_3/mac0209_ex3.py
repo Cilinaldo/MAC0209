@@ -4,7 +4,6 @@ import numpy as np
 from pyproj import Proj, transform
 import warnings
 from datetime import datetime
-from random import randint
 
 
 """ para ignorar todos os warnings """
@@ -332,97 +331,7 @@ Os trechos do (tempos[1266] - tempos[1264]) = 381 segundos e (tempos[2794] - tem
 
 velocidade_media_trecho1 = (distancias[1264] - distancias[0])/(tempos[1264] - tempos[0])
 print(f'velocidade no trecho 1 = {velocidade_media_trecho1} (m/s)')
-velocidade_media_trecho2 = (distancias[2792] - distancias[1266])/(tempos[2792] - tempos[1266])
-print(f'velocidade no trecho 2 = {velocidade_media_trecho2} (m/s)')
-velocidade_media_trecho3 = (distancias[7847] - distancias[2794])/(tempos[7847] - tempos[2794])
-print(f'velocidade no trecho 3 = {velocidade_media_trecho3} (m/s)')
 
-print('As descontinuidades refletem momentos de repouso, ou seja, intervalos de tempo em que o registro de deslocamento é praticamente nulo')
 
 
 """## Exercício 7. Usando as velocidades médias calculadas no exercício 5, estabeleça uma posição inicial para cada trecho e calcule a posição do veículo para 50 pontos de acordo com o modelo de movimento uniforme e compare, medindo o erro entre a posição calculada e a posição observada do veículo. Faça um gráfico da dispersão dos erros para cada trecho. """
-
-# PRIMEIRO TRECHO
-## Equação horária do trecho 1
-def equacao_horaria_trecho1(tempo, i):
-    return distancias[0] + velocidade_media_trecho1*(tempo-complete_points[0]['tempo_decorrido'])
-
-# pontos escolhidos com base no tempo
-indices_trecho1 = sorted([ randint(0,1265) for i in range(50) ])
-
-
-# posicoes observadas
-posicoes_observadas = []
-for i in indices_trecho1:
-    posicoes_observadas.append(complete_points[i]['distancia_percorrida'])
-
-# posições calculada para cada ponto de tempo escolhido
-posicoes_calculadas = [equacao_horaria_trecho1(tempos[i], i) for i in indices_trecho1]
-
-
-# calculo de erro
-erros = [abs(posicoes_calculadas[i] - posicoes_observadas[i]) for i in range(50)]
-
-t = [tempos[i] for i in indices_trecho1]
-fig, ax0 = plot_dist_time(erros, t, marker='.')
-plt.xlabel('Tempo (s)')
-plt.ylabel('Erro (m)')
-plt.title("Dispersão de erros no Trecho 1")
-plt.show()
-
-
-# SEGUNDO TRECHO
-## Equação horária do trecho 2
-def equacao_horaria_trecho2(tempo, i):
-    return distancias[1266] + velocidade_media_trecho2*(tempo-complete_points[1266]['tempo_decorrido'])
-
-# pontos escolhidos com base no tempo
-indices_trecho2 = sorted([ randint(1266,2793) for i in range(50) ])
-
-
-# posicoes observadas
-posicoes_observadas = []
-for i in indices_trecho2:
-    posicoes_observadas.append(complete_points[i]['distancia_percorrida'])
-
-# posições calculada para cada ponto de tempo escolhido
-posicoes_calculadas = [equacao_horaria_trecho2(tempos[i], i) for i in indices_trecho2]
-
-
-# calculo de erro
-erros = [abs(posicoes_calculadas[i] - posicoes_observadas[i]) for i in range(50)]
-
-t = [tempos[i] for i in indices_trecho2]
-fig, ax0 = plot_dist_time(erros, t, marker='.')
-plt.xlabel('Tempo (s)')
-plt.ylabel('Erro (m)')
-plt.title("Dispersão de erros no Trecho 2")
-plt.show()
-
-
-# TRECHO 3
-## Equação horária do trecho 3
-def equacao_horaria_trecho3(tempo, i):
-    return distancias[2794] + velocidade_media_trecho3*(tempo-complete_points[2794]['tempo_decorrido'])
-
-# pontos escolhidos com base no tempo
-indices_trecho3 = sorted([ randint(2794,7847) for i in range(50) ])
-
-# posicoes observadas
-posicoes_observadas = []
-for i in indices_trecho3:
-    posicoes_observadas.append(complete_points[i]['distancia_percorrida'])
-
-# posições calculada para cada ponto de tempo escolhido
-posicoes_calculadas = [equacao_horaria_trecho3(tempos[i], i) for i in indices_trecho3]
-
-
-# calculo de erro
-erros = [abs(posicoes_calculadas[i] - posicoes_observadas[i]) for i in range(50)]
-
-t = [tempos[i] for i in indices_trecho3]
-fig, ax0 = plot_dist_time(erros, t, marker='.')
-plt.xlabel('Tempo (s)')
-plt.ylabel('Erro (m)')
-plt.title("Dispersão de erros no Trecho 3")
-plt.show()
